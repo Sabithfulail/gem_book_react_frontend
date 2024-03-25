@@ -28,7 +28,7 @@ import img4 from '../../assets/imgs/red_sapphire.jpg';
 import img5 from '../../assets/imgs/green_sapphire.jpg';
 
 export const OrderForm = () => {
-  const baseURL = 'http://localhost:5000/api/customers';
+  const baseURL = 'https://gem-node-backend.onrender.com/api/customers';
   const [rows, setRows] = useState([]);
 
 

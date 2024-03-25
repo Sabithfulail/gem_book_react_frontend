@@ -15,7 +15,7 @@ import Avatar from '@mui/material/Avatar';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from '../../component/ListItems/ListItems';
+import { mainListItems } from '../../component/ListItems/ListItems';
 import { DashBoardContentRouting } from '../router/DashBoardContentRouting';
 
 
@@ -136,7 +136,7 @@ export default function DashBoard() {
           <List component="nav">
             {mainListItems}
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            {}
           </List>
         </Drawer>
         <Box

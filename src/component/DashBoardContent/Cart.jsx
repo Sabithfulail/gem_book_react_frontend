@@ -45,7 +45,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 export default function Cart(props) {
-  const baseURL = 'http://localhost:5000/api/orders';
+  const baseURL = 'https://gem-node-backend.onrender.com/api/orders';
   const [balance, setBalance] = useState(0);
   const [cash, setCash] = useState('');
   const handleCashChange = (event) => {

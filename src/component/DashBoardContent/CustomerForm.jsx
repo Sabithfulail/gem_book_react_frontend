@@ -39,7 +39,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export const CustomerForm = () => {
-  const baseURL = 'http://localhost:5000/api/customers';
+  const baseURL = 'https://gem-node-backend.onrender.com/api/customers';
   const [formData, setFormData] = useState({
     customerId: '',
     customerName: '',

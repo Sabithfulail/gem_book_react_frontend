@@ -54,7 +54,7 @@ export const ItemForm = () => {
     }
   };
 
-  const baseURL = 'http://localhost:5000/api/items';
+  const baseURL = 'https://gem-node-backend.onrender.com/api/items';
   const [formData, setFormData] = useState({
     itemId: '',
     itemName: '',
