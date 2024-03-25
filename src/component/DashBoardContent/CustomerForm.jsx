@@ -207,7 +207,7 @@ export const CustomerForm = () => {
             sx={{ width: 250 }}
             id="outlined-basic"
             name="customerName"
-            label="Customer Name"
+            label="User Name"
             variant="outlined"
             size="small"
             value={formData.customerName}
@@ -217,7 +217,7 @@ export const CustomerForm = () => {
             sx={{ width: 250 }}
             id="outlined-basic"
             name="customerAddress"
-            label="Customer Address"
+            label="User Address"
             variant="outlined"
             size="small"
             value={formData.customerAddress}
@@ -227,7 +227,7 @@ export const CustomerForm = () => {
             sx={{ width: 250 }}
             id="outlined-basic"
             name="customerEmail"
-            label="Customer Email"
+            label="User Email"
             variant="outlined"
             size="small"
             value={formData.customerEmail}
@@ -237,7 +237,7 @@ export const CustomerForm = () => {
             sx={{ width: 250 }}
             id="outlined-basic"
             name="customerContactNumber"
-            label="Customer ContactNumber"
+            label="User Contact Number"
             variant="outlined"
             size="small"
             value={formData.customerContactNumber}
@@ -259,12 +259,12 @@ export const CustomerForm = () => {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Customer Id</StyledTableCell>
-                <StyledTableCell align="right">Customer Name</StyledTableCell>
-                <StyledTableCell align="right">Customer Address</StyledTableCell>
-                <StyledTableCell align="right">Customer Email</StyledTableCell>
+                <StyledTableCell>User Id</StyledTableCell>
+                <StyledTableCell align="right">User Name</StyledTableCell>
+                <StyledTableCell align="right">User Address</StyledTableCell>
+                <StyledTableCell align="right">User Email</StyledTableCell>
                 <StyledTableCell align="right">
-                  Customer ContactNumber
+                User ContactNumber
                 </StyledTableCell>
                 <StyledTableCell align="right"></StyledTableCell>
               </TableRow>

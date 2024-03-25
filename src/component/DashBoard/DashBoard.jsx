@@ -17,7 +17,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems } from '../../component/ListItems/ListItems';
 import { DashBoardContentRouting } from '../router/DashBoardContentRouting';
-
+import iconGemBookLight from '../../assets/imgs/icon_gem_book_light.png';
 
 
 
@@ -100,7 +100,7 @@ export default function DashBoard() {
             </IconButton>
             <Avatar sx={{ mr: 1 }}> {/* Adjust margin as needed */}
               {/* Replace 'iconUrl' with the URL of your image */}
-              <img src="icon_gem_book_light.png" alt="Icon" style={{ width: '100%', height: 'auto' }} />
+              <img src={iconGemBookLight} alt="Icon" style={{ width: '100%', height: 'auto' }} />
             </Avatar>
             <Typography
               component="h1"

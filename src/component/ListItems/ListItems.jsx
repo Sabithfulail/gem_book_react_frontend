@@ -15,14 +15,7 @@ import './ListItems.css'
 export const mainListItems = (
   <React.Fragment>
       
-    <NavLink className="nav">
-    <ListItemButton  type='button'>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Dashboard" />
-      </ListItemButton>
-    </NavLink>
+    
 
 
     <NavLink to={'/dashboard/customerForm'} className="nav">
@@ -30,7 +23,7 @@ export const mainListItems = (
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>
-          <ListItemText primary="Customers" />
+          <ListItemText primary="Users" />
       </ListItemButton>
       </NavLink>
 
@@ -39,7 +32,7 @@ export const mainListItems = (
         <ListItemIcon>
           <Inventory2Icon />
         </ListItemIcon>
-        <ListItemText primary="Items" />
+        <ListItemText primary="Posts" />
       </ListItemButton>
       </NavLink>
 
@@ -49,17 +42,6 @@ export const mainListItems = (
           <ShoppingCartIcon />
         </ListItemIcon>
         <ListItemText primary="Orders" />
-      </ListItemButton>
-      </NavLink>
-    
-
-    
-      <NavLink className="nav">
-        <ListItemButton>
-        <ListItemIcon>
-          <BarChartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Reports" />
       </ListItemButton>
       </NavLink>
   </React.Fragment>

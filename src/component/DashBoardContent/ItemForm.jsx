@@ -198,13 +198,13 @@ export const ItemForm = () => {
   return (
     <div>
       <Container sx={{ mt: 3 }}>
-        <h1>Item Management</h1>
+        <h1>Post Management</h1>
         <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap">
           
         <TextField sx={{ width: 250 }} 
           id="outlined-basic" 
           name='itemId'
-          label="Item Id" 
+          label="Post Id" 
           variant="outlined"  
           size="small" 
           value={formData.itemId}
@@ -214,7 +214,7 @@ export const ItemForm = () => {
           sx={{ width: 250 }} 
           id="outlined-basic" 
           name='itemName'
-          label="Item Name" 
+          label="Post Name" 
           variant="outlined"  
           size="small"
           value={formData.itemName}
@@ -224,7 +224,7 @@ export const ItemForm = () => {
           sx={{ width: 250 }} 
           id="outlined-basic" 
           name='itemPackSize'
-          label="Item Pack Size" 
+          label="Post Pack Size" 
           variant="outlined"  
           size="small"
           value={formData.itemPackSize}
@@ -234,7 +234,7 @@ export const ItemForm = () => {
           sx={{ width: 250 }} 
           id="outlined-basic" 
           name='itemUnitPrice'
-          label="Item Unit Price" 
+          label="Post Unit Price" 
           variant="outlined"  
           size="small"
           value={formData.itemUnitPrice}
@@ -244,7 +244,7 @@ export const ItemForm = () => {
           sx={{ width: 250 }} 
           id="outlined-basic" 
           name='itemQuantityOnHand'
-          label="Item Quantity of Hand" 
+          label="Post Quantity of Hand" 
           variant="outlined"  
           size="small"
           value={formData.itemQuantityOnHand}
@@ -284,11 +284,11 @@ export const ItemForm = () => {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell >Item Id</StyledTableCell>
-                <StyledTableCell align="right">Item Name</StyledTableCell>
-                <StyledTableCell align="right">Item Pack Size</StyledTableCell>
-                <StyledTableCell align="right">Item Unit Price</StyledTableCell>
-                <StyledTableCell align="right">Item Quantity of Hand</StyledTableCell>
+                <StyledTableCell >Post Id</StyledTableCell>
+                <StyledTableCell align="right">Post Name</StyledTableCell>
+                <StyledTableCell align="right">Post Pack Size</StyledTableCell>
+                <StyledTableCell align="right">Post Unit Price</StyledTableCell>
+                <StyledTableCell align="right">Post Quantity of Hand</StyledTableCell>
                 <StyledTableCell align="right"></StyledTableCell>
               </TableRow>
             </TableHead>
