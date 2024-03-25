@@ -197,7 +197,7 @@ export const CustomerForm = () => {
             sx={{ width: 250 }}
             id="outlined-basic"
             name="customerId"
-            label="Customer Id"
+            label="User Id"
             variant="outlined"
             size="small"
             value={formData.customerId}

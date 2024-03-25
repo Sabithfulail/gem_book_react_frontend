@@ -151,7 +151,7 @@ export const OrderForm = () => {
             
                 <FormControl style={{'width':'200px'}}>
                   
-                    <InputLabel size="small"  >Customer Id</InputLabel>
+                    <InputLabel size="small"  >User Id</InputLabel>
                     <Select
                   
                       value={cusId}
