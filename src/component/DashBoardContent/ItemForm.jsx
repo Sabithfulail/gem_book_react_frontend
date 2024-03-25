@@ -1,5 +1,7 @@
+
+
 import axios from 'axios';
-import React, { useRef,useState , useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import { Container } from '@mui/material';
@@ -17,8 +19,8 @@ import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import Swal from 'sweetalert2';
 
-const Swal = require('sweetalert2');
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -42,27 +44,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export const ItemForm = () => {
   const fileInputRef = useRef(null);
   const [selectedFileName, setSelectedFileName] = useState('');
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      console.log(file);
-      setSelectedFileName(file.name);
-    }
-  };
-
-  const baseURL = 'https://gem-node-backend.onrender.com/api/items';
   const [formData, setFormData] = useState({
     itemId: '',
     itemName: '',
-    itemUnitPrice : '',
+    itemUnitPrice: '',
     itemPackSize: '',
     itemQuantityOnHand: '',
   });
- 
+  const [isExistingItem, setIsExistingItem] = useState(false);
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    loadAllItems();
+  }, []);
+
+  const baseURL = 'http://localhost:5000/api/items';
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -70,86 +67,94 @@ export const ItemForm = () => {
       [name]: value,
     }));
   };
+
   const handleSaveUpdate = () => {
-    if(isExistingItem){
- 
-       axios
-       .put(`${baseURL}/updateItem/${formData.itemId}`, formData)
-       .then((response) => {
-         Swal.fire({
-           position: "center",
-           icon: "success",
-           title: response.data.success,
-           showConfirmButton: false,
-           timer: 1500,
-         });
-        
-         setFormData({
-          itemId: '',
-          itemName: '',
-          itemUnitPrice : '',
-          itemPackSize: '',
-          itemQuantityOnHand: '',
-         });
-         setIsExistingItem(false);
-         loadAllItems(); 
-       })
-       .catch((error) => {
-         console.error("Error updating customer:", error);
-         alert("Error updating customer");
-       });
- 
-    }else{
-     axios
-     .post(baseURL + '/saveItem', formData)
-     .then((response) => {
-       Swal.fire({
-         position: 'center',
-         icon: 'success',
-         title: response.data,
-         showConfirmButton: false,
-         timer: 1500,
-       });
- 
-       loadAllItems();
-       setFormData({
-        itemId: '',
-        itemName: '',
-        itemUnitPrice : '',
-        itemPackSize: '',
-        itemQuantityOnHand: '',
-       });
-     })
-     .catch((error) => {
-       alert('Error saving data:', error);
-     });
+    if (!validateForm()) {
+      return;
     }
-   };
-  const checkItemExist= (itemId) => {
-    axios 
+
+    if (isExistingItem) {
+      axios
+        .put(`${baseURL}/updateItem/${formData.itemId}`, formData)
+        .then((response) => {
+          handleResponse(response.data.success);
+        })
+        .catch((error) => {
+          handleError(error);
+        });
+    } else {
+      axios
+        .post(`${baseURL}/saveItem`, formData)
+        .then((response) => {
+          handleResponse(response.data);
+        })
+        .catch((error) => {
+          handleError(error);
+        });
+    }
+  };
+
+  const validateForm = () => {
+    const { itemId, itemName, itemUnitPrice, itemPackSize, itemQuantityOnHand } = formData;
+    if (!itemId || !itemName || !itemUnitPrice || !itemPackSize || !itemQuantityOnHand) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Validation Error',
+        text: 'Please fill in all fields',
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const handleResponse = (message) => {
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: message,
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    loadAllItems();
+    clearFormData();
+  };
+
+  const handleError = (error) => {
+    console.error('Error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'An error occurred',
+    });
+  };
+
+  const clearFormData = () => {
+    setFormData({
+      itemId: '',
+      itemName: '',
+      itemUnitPrice: '',
+      itemPackSize: '',
+      itemQuantityOnHand: '',
+    });
+    setIsExistingItem(false);
+  };
+
+  const checkItemExist = (itemId) => {
+    axios
       .get(`${baseURL}/getItemById/${itemId}`)
       .then((response) => {
-        
         setIsExistingItem(response.data != null);
-        console.log(response.data != null);
-        console.log(response.data);
       })
       .catch((error) => {
         setIsExistingItem(false);
       });
   };
 
-  const [isExistingItem, setIsExistingItem] = useState(false);
-
   useEffect(() => {
     if (formData.itemId) {
       checkItemExist(formData.itemId);
     }
   }, [formData.itemId]);
-  const [rows, setRows] = useState([]);
-  useEffect(() => {
-    loadAllItems();
-  }, []);
 
   function loadAllItems() {
     axios
@@ -160,7 +165,8 @@ export const ItemForm = () => {
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  } 
+  }
+
   const setFieldsForUpdate = (itemId) => {
     const selectedRow = rows.find((row) => row.itemId === itemId);
     setFormData({
@@ -183,11 +189,10 @@ export const ItemForm = () => {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(itemId);
         axios
           .delete(`${baseURL}/deleteItem/${itemId}`)
-          .then((response) => {
-           // loadAllCustomers();
+          .then(() => {
+            loadAllItems();
           })
           .catch((error) => {
             console.error('Error deleting item:', error);
@@ -195,16 +200,28 @@ export const ItemForm = () => {
       }
     });
   };
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      console.log(file);
+      setSelectedFileName(file.name);
+    }
+  };
   return (
     <div>
       <Container sx={{ mt: 3 }}>
-        <h1>Post Management</h1>
+        <h1>Item Management</h1>
         <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap">
           
         <TextField sx={{ width: 250 }} 
           id="outlined-basic" 
           name='itemId'
-          label="Post Id" 
+          label="Item Id" 
           variant="outlined"  
           size="small" 
           value={formData.itemId}
@@ -214,7 +231,7 @@ export const ItemForm = () => {
           sx={{ width: 250 }} 
           id="outlined-basic" 
           name='itemName'
-          label="Post Name" 
+          label="Item Name" 
           variant="outlined"  
           size="small"
           value={formData.itemName}
@@ -224,7 +241,7 @@ export const ItemForm = () => {
           sx={{ width: 250 }} 
           id="outlined-basic" 
           name='itemPackSize'
-          label="Post Pack Size" 
+          label="Item Pack Size" 
           variant="outlined"  
           size="small"
           value={formData.itemPackSize}
@@ -234,7 +251,7 @@ export const ItemForm = () => {
           sx={{ width: 250 }} 
           id="outlined-basic" 
           name='itemUnitPrice'
-          label="Post Unit Price" 
+          label="Item Unit Price" 
           variant="outlined"  
           size="small"
           value={formData.itemUnitPrice}
@@ -244,7 +261,7 @@ export const ItemForm = () => {
           sx={{ width: 250 }} 
           id="outlined-basic" 
           name='itemQuantityOnHand'
-          label="Post Quantity of Hand" 
+          label="Item Quantity of Hand" 
           variant="outlined"  
           size="small"
           value={formData.itemQuantityOnHand}
@@ -284,11 +301,11 @@ export const ItemForm = () => {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell >Post Id</StyledTableCell>
-                <StyledTableCell align="right">Post Name</StyledTableCell>
-                <StyledTableCell align="right">Post Pack Size</StyledTableCell>
-                <StyledTableCell align="right">Post Unit Price</StyledTableCell>
-                <StyledTableCell align="right">Post Quantity of Hand</StyledTableCell>
+                <StyledTableCell >Item Id</StyledTableCell>
+                <StyledTableCell align="right">Item Name</StyledTableCell>
+                <StyledTableCell align="right">Item Pack Size</StyledTableCell>
+                <StyledTableCell align="right">Item Unit Price</StyledTableCell>
+                <StyledTableCell align="right">Item Quantity of Hand</StyledTableCell>
                 <StyledTableCell align="right"></StyledTableCell>
               </TableRow>
             </TableHead>
@@ -334,3 +351,4 @@ export const ItemForm = () => {
     </div>
   );
 };
+

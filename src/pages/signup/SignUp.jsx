@@ -11,46 +11,61 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-// import { useHistory } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-function Copyright(props) {
-  // const history = useHistory();
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get('email'),
-  //     password: data.get('password'),
-  //   });
-
-  //   // Navigate to the dashboard upon successful signup
-  //   history.push('/dashboard');
-  // };
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
+function validateEmail(email) {
+  // Regular expression for email validation
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(String(email).toLowerCase());
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
+function validatePassword(password) {
+  // Password must be at least 6 characters long
+  return password.length >= 6;
+}
+
+function validateName(name) {
+  // Name must not be empty
+  return name.trim() !== '';
+}
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const [formData, setFormData] = React.useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  });
+  const [errors, setErrors] = React.useState({});
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    // Validate form fields
+    const newErrors = {};
+    if (!validateName(formData.firstName)) {
+      newErrors.firstName = 'First name is required';
+    }
+    if (!validateName(formData.lastName)) {
+      newErrors.lastName = 'Last name is required';
+    }
+    if (!validateEmail(formData.email)) {
+      newErrors.email = 'Invalid email address';
+    }
+    if (!validatePassword(formData.password)) {
+      newErrors.password = 'Password must be at least 6 characters long';
+    }
+    if (Object.keys(newErrors).length === 0) {
+      console.log('Form submitted successfully:', formData);
+      // Perform form submission logic here
+    } else {
+      setErrors(newErrors);
+    }
+  };
+
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   return (
@@ -82,6 +97,9 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  error={!!errors.firstName}
+                  helperText={errors.firstName}
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -92,6 +110,9 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  error={!!errors.lastName}
+                  helperText={errors.lastName}
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -102,6 +123,9 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  error={!!errors.email}
+                  helperText={errors.email}
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -113,6 +137,9 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  error={!!errors.password}
+                  helperText={errors.password}
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -122,7 +149,7 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            <Button href='dashboard'
+            <Button
               type="submit"
               fullWidth
               variant="contained"
@@ -132,14 +159,13 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );
