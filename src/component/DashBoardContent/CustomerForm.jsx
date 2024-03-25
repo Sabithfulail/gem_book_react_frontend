@@ -190,7 +190,7 @@ export const CustomerForm = () => {
   return (
     <div>
       <Container sx={{ mt: 3 }}>
-        <h1>Customer Management Form</h1>
+        <h1>User Management Form</h1>
 
         <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap">
           <TextField
